@@ -1,0 +1,50 @@
+---
+sidebar_position: 5
+description: Delete shortcuts from the system-level configuration
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import SystemConfigLinux from '!!raw-loader!./_partials/_system-config-linux.yml';
+import SystemConfigWin from '!!raw-loader!./_partials/_system-config-win.yml';
+import UserConfig from '!!raw-loader!./_partials/_delete-shortcuts-user-config.yml';
+import MergedConfigLinux from '!!raw-loader!./_partials/_delete-shortcuts-merged-config-linux.yml';
+import MergedConfigWin from '!!raw-loader!./_partials/_delete-shortcuts-merged-config-win.yml';
+
+# Delete Shortcuts
+
+Given the system-config:
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="/etc/launchee/launchee.yml">{SystemConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="C:\ProgramData\launchee\launchee.yml">{SystemConfigWin}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+You can delete a shortcut at user-level config by:
+
+- specifying the unique name of the shortcut to be deleted that already exists in the system-level config
+- adding mandatory `$patch: delete` directive
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="~/.config/launchee/launchee.yml">{UserConfig}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="C:\Users\user\launchee\launchee.yml">{UserConfig}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+The merged configuration will result in:
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml">{MergedConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml">{MergedConfigWin}</CodeBlock>
+    </TabItem>
+</Tabs>

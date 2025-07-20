@@ -1,0 +1,122 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: test-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  main:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Without cache, from: https://github.com/dAppServer/wails-build-action/blob/main/action.yml
+#      - name: Detect Ubuntu version and install apt packages without cache
+#        if: runner.os == 'Linux'
+#        id: apt_pkgs
+#        run: |
+#          sudo apt-get -yq update
+#          sudo apt-get -yq install libgtk-3-dev libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu --no-install-recommends
+#          echo "UBUNTU_VERSION=$(lsb_release -rs)" >> "$GITHUB_OUTPUT"
+
+      # From: sudo apt-get -yq install libgtk-3-dev libwebkit2gtk-4.1-dev gcc-aarch64-linux-gnu --no-install-recommends
+      - name: Read apt packages
+        id: apt_pkgs
+        run: |
+          aptPkgs="$(cat .github/apt-packages.txt | tr '\n' ' ' | awk '{$1=$1; print}' | tr -d '\n')"
+          echo "APT_PKGS=${aptPkgs}" >> "$GITHUB_OUTPUT"
+          echo "UBUNTU_VERSION=$(lsb_release -rs)" >> "$GITHUB_OUTPUT"
+
+      # With cache, from: https://github.com/dAppServer/wails-build-action/blob/main/action.yml
+      - name: Install apt packages with cache
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: ${{ steps.apt_pkgs.outputs.APT_PKGS }}
+          version: ${{ steps.apt_pkgs.outputs.UBUNTU_VERSION }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          check-latest: true
+          cache: true
+          cache-dependency-path: 'src/go.sum'
+          go-version: '1.25.0'
+
+      - name: Set up Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Set up Pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.15.0'
+
+      - name: Generate Workflow Stats
+        run: |
+          echo "### Workflow Stats" >> ${GITHUB_STEP_SUMMARY}
+          echo "- Ubuntu **${{ steps.apt_pkgs.outputs.UBUNTU_VERSION }}**" >> ${GITHUB_STEP_SUMMARY}
+          echo "- Go **$(go version | sed "s/.* go//;s/ .*//")**" >> ${GITHUB_STEP_SUMMARY}
+          echo "- Wails **$(wails version | grep "v" | sed "s/v//")**" >> ${GITHUB_STEP_SUMMARY}
+          echo "- Pnpm **$(pnpm --version)**" >> ${GITHUB_STEP_SUMMARY}
+
+      - name: Build project
+        working-directory: scripts
+        run: ./build.sh
+
+      - name: Run tests
+        working-directory: scripts
+        run: ./test.sh -c
+
+      - name: Test artifacts
+        working-directory: src
+        run: |
+          test -f "go-test-coverage.html" || { echo "go-test-coverage.html not found"; exit 1; }
+          test -f "go-test-coverage.json" || { echo "go-test-coverage.json not found"; exit 1; }
+          jq . go-test-coverage.json > /dev/null || { echo "go-test-coverage.json is not valid JSON"; exit 1; }
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-test-coverage-html-report
+          path: src/go-test-coverage.html
+
+      - name: Prepare badges worktree
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: |
+          git fetch origin badges || true
+          if git show-ref --verify --quiet refs/remotes/origin/badges; then
+            git worktree add ../badges origin/badges
+          else
+            git worktree add --orphan -b badges ../badges
+          fi
+
+      - name: Publish go-test-coverage.json to badges branch
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        working-directory: ../badges
+        run: |
+          cp -v "${GITHUB_WORKSPACE}/src/go-test-coverage.json" ./go-test-coverage.json
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add go-test-coverage.json
+            git commit -m "chore(badge): Update go-test-coverage badge"
+            git push origin HEAD:badges
+          else
+            echo "No badge changes to commit"
+          fi
+
+      - name: Cleanup badges worktree
+        if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: git worktree remove -f ../badges || true

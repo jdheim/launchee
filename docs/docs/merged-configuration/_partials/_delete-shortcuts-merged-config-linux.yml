@@ -1,0 +1,5 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "/opt/kitty/lib/kitty/logo/kitty-128.png"
+    command: "kitty"

@@ -1,0 +1,9 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/powershell.png"
+    command: "cmd.exe"
+    commandArgs: "/c start powershell.exe"
+  - name: "Weather"
+    icon: "C:/ProgramData/launchee/icons/weather-app.png"
+    url: "https://www.windy.com"

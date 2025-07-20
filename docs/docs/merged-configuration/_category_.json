@@ -1,0 +1,8 @@
+{
+  "label": "Merged Configuration",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "By default, Launchee first reads the system-level configuration (if present) and merges it with the user-level configuration. You can read more about this here:"
+  }
+}

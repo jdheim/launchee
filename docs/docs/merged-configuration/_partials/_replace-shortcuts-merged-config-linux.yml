@@ -1,0 +1,10 @@
+title: "My Launchee"
+shortcuts:
+  # highlight-start
+  - name: "Terminal"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/terminal-app.png"
+    command: "gnome-terminal"
+  # highlight-end
+  - name: "Weather"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/weather-app.png"
+    url: "https://www.windy.com"

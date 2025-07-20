@@ -1,0 +1,24 @@
+title: "Mamy przykładowy tytuł UTF-8 😎"
+shortcuts:
+  - name: "File Manager"
+    $patch: delete
+  - name: "Text Editor"
+    icon: "../../test/stub/stub_config/icons/notes-app.png"
+    $patch: merge
+  - name: "Terminal"
+    icon: "../../test/stub/stub_config/icons/terminal-app.png"
+    command: "echo"
+    $patch: replace # Optional
+  - name: "Firefox"
+    icon: "../../test/stub/stub_config/icons/default128.png"
+    command: "echo"
+    commandArgs: "-n test" # You can add args to the command
+  - name: "DBeaver"
+    icon: "../../test/stub/stub_config/icons/dbeaver.png"
+    command: "echo"
+  - name: "KeyStore Explorer"
+    icon: "../../test/stub/stub_config/icons/kse_128.png"
+    command: "echo"
+  - name: "Weather"
+    icon: "../../test/stub/stub_config/icons/weather-app.png"
+    url: "https://www.windy.com" # You can use url instead of command too

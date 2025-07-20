@@ -1,0 +1,4 @@
+shortcuts:
+  - name: "Weather"
+    url: "https://www.accuweather.com/en/es/madrid/308526/weather-forecast/308526?city=madrid"
+    $patch: merge
