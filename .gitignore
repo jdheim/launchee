@@ -1,0 +1,13 @@
+# INTELLIJ IDEA
+.idea/*
+!.idea/copyright
+!.idea/scopes
+target/
+
+# GO
+go-test-coverage.*
+
+# WAILS
+**/build/bin
+**/frontend/node_modules
+**/frontend/dist

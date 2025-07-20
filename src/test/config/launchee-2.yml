@@ -1,0 +1,8 @@
+title: "[DEV] Launchee 2"
+shortcuts:
+  - name: "Firefox"
+    icon: "/opt/firefox/browser/chrome/icons/default/default128.png"
+    command: "firefox"
+  - name: "IntelliJ IDEA"
+    icon: "/home/dev/apps/intellij-idea/bin/idea.svg"
+    command: "idea"

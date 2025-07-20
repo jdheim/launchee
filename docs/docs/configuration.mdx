@@ -1,0 +1,44 @@
+---
+sidebar_position: 2
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import ForwardSlashWarnWin from './_partials/_forward-slash-warn-win.md';
+import SystemConfigLinux from '!!raw-loader!./merged-configuration/_partials/_system-config-linux.yml';
+import SystemConfigWin from '!!raw-loader!./merged-configuration/_partials/_system-config-win.yml';
+
+# Configuration
+
+Launchee uses a simple YAML file (named `launchee.yml` or `launchee.yaml`) to define your shortcuts.
+
+Each shortcut can launch an app (binary, script, alias, etc.) or open a URL in your default browser.
+
+## Example
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="launchee.yml">{SystemConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="launchee.yml">{SystemConfigWin}</CodeBlock>
+        <ForwardSlashWarnWin />
+    </TabItem>
+</Tabs>
+
+## Fields
+
+| Name          | Type                          | Default  | Description                                            |
+|---------------|-------------------------------|----------|--------------------------------------------------------|
+| `title` | string<br/>min: 3<br/>max: 30 | Launchee | The title of the Launchee window                       |
+| `shortcuts` | [Shortcut[]](#shortcuts)      |          |  A list of shortcuts to display in the Launchee window |
+
+### Shortcuts
+
+| Name                  | Type                                     | Default | Description                                                                                                                                                                                                        |
+|-----------------------|------------------------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`                | string<br/>min: 3<br/>max: 30            |         | A **unique** name for the shortcut                                                                                                                                                                                 |
+| `icon`                | path to a file                           |         | A path to the icon image smaller than 1MB. Supported extensions are:<br/>•`apng`<br/>•`avif`<br/>•`bmp`<br/>•`gif`<br/>•`ico`<br/>•`jpg`<br/>•`jpeg`<br/>•`png`<br/>•`svg`<br/>•`tif`<br/>•`tiff`<br/>•`webp`<br/> |
+| •`command`<br/>•`url` | string<br/>string                              |         | Action on click: a valid command to run (binary, script, alias, etc.) or a URL to open in your default browser starting with either `https://` or `http://`. They are mutually exclusive (define one, never both)  |
+| `commandArgs`         | string            |         | Arguments for `command`                                                                                                                                                                                          |
+| `$patch`              | •`replace`<br/>•`merge`<br/>•`delete` | `replace` | Patch mode directive used in [merged configuration](./category/merged-configuration)                                                                                                                               |

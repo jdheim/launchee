@@ -1,0 +1,63 @@
+---
+sidebar_position: 3
+description: Replace shortcuts in the system-level configuration
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import SystemConfigLinux from '!!raw-loader!./_partials/_system-config-linux.yml';
+import SystemConfigWin from '!!raw-loader!./_partials/_system-config-win.yml';
+import UserConfigLinux from '!!raw-loader!./_partials/_replace-shortcuts-user-config-linux.yml';
+import UserConfigWin from '!!raw-loader!./_partials/_replace-shortcuts-user-config-win.yml';
+import MergedConfigLinux from '!!raw-loader!./_partials/_replace-shortcuts-merged-config-linux.yml';
+import MergedConfigWin from '!!raw-loader!./_partials/_replace-shortcuts-merged-config-win.yml';
+
+# Replace Shortcuts
+
+Given the system-config:
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="/etc/launchee/launchee.yml">{SystemConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="C:\ProgramData\launchee\launchee.yml">{SystemConfigWin}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+You can override a shortcut at user-level config by:
+
+- specifying the unique name of the shortcut to be overridden that already exists in the system-level config
+- all other mandatory fields
+- adding optional `$patch: replace` directive
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="~/.config/launchee/launchee.yml">{UserConfigLinux}    $patch: replace</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="C:\Users\user\launchee\launchee.yml">{UserConfigWin}    $patch: replace</CodeBlock>
+    </TabItem>
+</Tabs>
+
+or just:
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml" title="~/.config/launchee/launchee.yml">{UserConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml" title="C:\Users\user\launchee\launchee.yml">{UserConfigWin}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+The merged configuration will result in:
+
+<Tabs groupId="operating-systems">
+    <TabItem value="linux" label="Linux">
+        <CodeBlock language="yaml">{MergedConfigLinux}</CodeBlock>
+    </TabItem>
+    <TabItem value="win" label="Windows">
+        <CodeBlock language="yaml">{MergedConfigWin}</CodeBlock>
+    </TabItem>
+</Tabs>

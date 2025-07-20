@@ -1,0 +1,6 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/powershell.png"
+    command: "cmd.exe"
+    commandArgs: "/c start powershell.exe"

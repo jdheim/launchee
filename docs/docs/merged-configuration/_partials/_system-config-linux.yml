@@ -1,0 +1,8 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "/opt/kitty/lib/kitty/logo/kitty-128.png"
+    command: "kitty"
+  - name: "Weather"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/weather-app.png"
+    url: "https://www.windy.com"
