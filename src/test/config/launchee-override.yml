@@ -1,0 +1,24 @@
+title: "Mamy przykładowy tytuł UTF-8 😎"
+shortcuts:
+  - name: "File Manager"
+    $patch: delete
+  - name: "Text Editor"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/notes-app.png"
+    $patch: merge
+  - name: "Terminal"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/terminal-app.png"
+    command: "kitty"
+    $patch: replace # Optional
+  - name: "Firefox"
+    icon: "/opt/firefox/browser/chrome/icons/default/default128.png"
+    command: "firefox"
+    commandArgs: "--new-tab https://github.com/jdheim/jdvm --new-tab https://github.com/jdheim/launchee" # You can add args to the command
+  - name: "DBeaver"
+    icon: "/home/dev/apps/dbeaver/dbeaver.png"
+    command: "dbeaver"
+  - name: "KeyStore Explorer"
+    icon: "/home/dev/apps/keystore-explorer/icons/kse_128.png"
+    command: "kse"
+  - name: "Weather"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/weather-app.png"
+    url: "https://www.windy.com" # You can use url instead of command too

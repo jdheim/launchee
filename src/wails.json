@@ -1,0 +1,23 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Launchee",
+  "outputfilename": "launchee",
+  "assetdir": "frontend/dist",
+  "build:dir": "build",
+  "frontend:dir": "frontend",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "wailsjsdir": "frontend",
+  "author": {
+    "name": "Marcin P.",
+    "email": "114195537+p-marcin@users.noreply.github.com"
+  },
+  "info": {
+    "companyName": "JDHeim.com",
+    "productName": "Launchee",
+    "productVersion": "0.0.1",
+    "copyright": "© 2025-2025 JDHeim.com • Licensed under the Apache License, Version 2.0"
+  }
+}

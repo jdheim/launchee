@@ -1,0 +1,27 @@
+title: "Mamy przykładowy tytuł UTF-8 😎"
+shortcuts:
+  - name: "File Manager"
+    $patch: delete
+  - name: "Text Editor"
+    icon: "internal/test/stub/stub_config/icons/notes-app.png"
+    $patch: merge
+  - name: "Terminal"
+    icon: "internal/test/stub/stub_config/icons/terminal-app.png"
+    command: "echo"
+    commandArgs: "Terminal"
+    $patch: replace
+  - name: "Firefox"
+    icon: "internal/test/stub/stub_config/icons/default128.png"
+    command: "echo"
+    commandArgs: "Firefox"
+  - name: "DBeaver"
+    icon: "internal/test/stub/stub_config/icons/dbeaver.png"
+    command: "echo"
+    commandArgs: "DBeaver"
+  - name: "KeyStore Explorer"
+    icon: "internal/test/stub/stub_config/icons/kse_128.png"
+    command: "echo"
+    commandArgs: "KeyStore Explorer"
+  - name: "Weather"
+    icon: "internal/test/stub/stub_config/icons/weather-app.png"
+    url: "https://www.windy.com"

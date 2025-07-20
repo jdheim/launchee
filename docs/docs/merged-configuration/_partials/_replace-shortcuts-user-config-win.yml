@@ -1,0 +1,5 @@
+shortcuts:
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/cmd.png"
+    command: "cmd.exe"
+    commandArgs: "/c start"

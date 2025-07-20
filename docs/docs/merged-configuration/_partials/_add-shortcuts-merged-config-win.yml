@@ -1,0 +1,15 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/powershell.png"
+    command: "cmd.exe"
+    commandArgs: "/c start powershell.exe"
+  - name: "Weather"
+    icon: "C:/ProgramData/launchee/icons/weather-app.png"
+    url: "https://www.windy.com"
+  # highlight-start
+  - name: "Firefox"
+    icon: "C:/Program Files/Mozilla Firefox/browser/VisualElements/VisualElements_70.png"
+    command: "C:/Program Files/Mozilla Firefox/firefox.exe"
+    commandArgs: "--new-tab https://github.com/jdheim/jdvm --new-tab https://github.com/jdheim/launchee"
+  # highlight-end

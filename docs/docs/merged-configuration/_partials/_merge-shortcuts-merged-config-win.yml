@@ -1,0 +1,11 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/powershell.png"
+    command: "cmd.exe"
+    commandArgs: "/c start powershell.exe"
+    # highlight-next-line
+  - name: "Weather"
+    icon: "C:/ProgramData/launchee/icons/weather-app.png"
+    # highlight-next-line
+    url: "https://www.accuweather.com/en/es/madrid/308526/weather-forecast/308526?city=madrid"

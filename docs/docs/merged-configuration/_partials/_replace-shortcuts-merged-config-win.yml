@@ -1,0 +1,11 @@
+title: "My Launchee"
+shortcuts:
+  # highlight-start
+  - name: "Terminal"
+    icon: "C:/ProgramData/launchee/icons/cmd.png"
+    command: "cmd.exe"
+    commandArgs: "/c start"
+  # highlight-end
+  - name: "Weather"
+    icon: "C:/ProgramData/launchee/icons/weather-app.png"
+    url: "https://www.windy.com"

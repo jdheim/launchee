@@ -1,0 +1,5 @@
+shortcuts:
+  - name: "Firefox"
+    icon: "C:/Program Files/Mozilla Firefox/browser/VisualElements/VisualElements_70.png"
+    command: "C:/Program Files/Mozilla Firefox/firefox.exe"
+    commandArgs: "--new-tab https://github.com/jdheim/jdvm --new-tab https://github.com/jdheim/launchee"

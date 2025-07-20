@@ -1,0 +1,14 @@
+title: "My Launchee"
+shortcuts:
+  - name: "Terminal"
+    icon: "/opt/kitty/lib/kitty/logo/kitty-128.png"
+    command: "kitty"
+  - name: "Weather"
+    icon: "/usr/share/icons/Yaru/48x48@2x/apps/weather-app.png"
+    url: "https://www.windy.com"
+  # highlight-start
+  - name: "Firefox"
+    icon: "/opt/firefox/browser/chrome/icons/default/default128.png"
+    command: "firefox"
+    commandArgs: "--new-tab https://github.com/jdheim/jdvm --new-tab https://github.com/jdheim/launchee"
+  # highlight-end

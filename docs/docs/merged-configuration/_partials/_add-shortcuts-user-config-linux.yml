@@ -1,0 +1,5 @@
+shortcuts:
+  - name: "Firefox"
+    icon: "/opt/firefox/browser/chrome/icons/default/default128.png"
+    command: "firefox"
+    commandArgs: "--new-tab https://github.com/jdheim/jdvm --new-tab https://github.com/jdheim/launchee"
