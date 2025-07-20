@@ -1,0 +1,116 @@
+/*
+ * © 2025-2025 JDHeim
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package yaml
+
+import (
+	"github.com/jdheim/launchee/internal/lctx"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+)
+
+const (
+	patchDelete  = "delete"
+	patchMerge   = "merge"
+	patchReplace = "replace"
+)
+
+func (yc *config) sanitize() *config {
+	sanitizedShortcuts := make([]*shortcut, 0, len(yc.Shortcuts))
+	processed := make(map[string]bool)
+	for _, shortcut := range yc.Shortcuts {
+		if !processed[shortcut.Name] && shortcut.Patch != patchDelete && shortcut.Patch != patchMerge {
+			processed[shortcut.Name] = true
+			sanitizedShortcuts = append(sanitizedShortcuts, shortcut)
+		}
+	}
+	yc.Shortcuts = sanitizedShortcuts
+	return yc
+}
+
+func (yc *config) merge(other *config) *config {
+	if other == nil {
+		return yc
+	}
+	merged := newConfigWithoutShortcuts(yc.Title)
+	if other.Title != "" {
+		merged.Title = other.Title
+	}
+	if len(other.Shortcuts) != 0 {
+		merged.Shortcuts = yc.mergeShortcuts(other)
+	} else {
+		merged.Shortcuts = yc.Shortcuts
+	}
+	return merged
+}
+
+func (yc *config) mergeShortcuts(other *config) []*shortcut {
+	mergedShortcuts := make([]*shortcut, 0, len(yc.Shortcuts)+len(other.Shortcuts))
+	otherShortcuts := toShortcutMapByName(other.Shortcuts)
+	processed := make(map[string]bool)
+
+	runtime.LogInfo(lctx.GetContext(), "----- Configuration merge started -----")
+	for _, shortcut := range yc.Shortcuts {
+		if otherShortcut, found := otherShortcuts[shortcut.Name]; found {
+			processed[shortcut.Name] = true
+			if otherShortcut.Patch == patchDelete {
+				runtime.LogInfof(lctx.GetContext(), "Deleting %+v", otherShortcut)
+				continue
+			} else if otherShortcut.Patch == patchMerge {
+				mergedShortcut := shortcut.merge(otherShortcut)
+				runtime.LogInfof(lctx.GetContext(), "Overridding with %+v", mergedShortcut)
+				mergedShortcuts = append(mergedShortcuts, mergedShortcut)
+				continue
+			}
+			runtime.LogInfof(lctx.GetContext(), "Replacing with %+v", otherShortcut)
+			mergedShortcuts = append(mergedShortcuts, otherShortcut)
+		} else {
+			runtime.LogInfof(lctx.GetContext(), "Adding %+v", shortcut)
+			mergedShortcuts = append(mergedShortcuts, shortcut)
+		}
+	}
+
+	for _, otherShortcut := range other.Shortcuts {
+		if !processed[otherShortcut.Name] && otherShortcut.Patch != patchDelete && otherShortcut.Patch != patchMerge {
+			runtime.LogInfof(lctx.GetContext(), "Adding not processed one %+v", otherShortcut)
+			processed[otherShortcut.Name] = true
+			mergedShortcuts = append(mergedShortcuts, otherShortcut)
+		}
+	}
+	runtime.LogInfo(lctx.GetContext(), "----- Configuration merge finished -----")
+	return mergedShortcuts
+}
+
+func toShortcutMapByName(shortcuts []*shortcut) map[string]*shortcut {
+	shortcutMap := make(map[string]*shortcut)
+	for _, shortcut := range shortcuts {
+		shortcutMap[shortcut.Name] = shortcut
+	}
+	return shortcutMap
+}
+
+func (s *shortcut) merge(other *shortcut) *shortcut {
+	s.Patch = patchMerge
+	if other.Icon != "" {
+		s.Icon = other.Icon
+	}
+	if other.Command != "" {
+		s.Command = other.Command
+	} else if other.Url != "" {
+		s.Url = other.Url
+	}
+	return s
+}

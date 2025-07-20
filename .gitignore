@@ -1,0 +1,10 @@
+# INTELLIJ IDEA
+.idea/*
+!.idea/copyright
+!.idea/scopes
+target/
+
+# WAILS
+**/build/bin
+**/frontend/node_modules
+**/frontend/dist
