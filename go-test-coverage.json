@@ -1,8 +1,5 @@
 {
   "schemaVersion": 1,
-  "logo": "go",
-  "logoColor": "white",
-  "label": "Test Coverage",
   "message": "53.7%",
   "color": "yellow"
 }
