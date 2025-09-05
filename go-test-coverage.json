@@ -3,6 +3,6 @@
   "namedLogo": "go",
   "logoColor": "white",
   "label": "Test Coverage",
-  "message": "77.5%",
-  "color": "yellowgreen"
+  "message": "87.8%",
+  "color": "green"
 }
